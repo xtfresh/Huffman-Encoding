@@ -38,12 +38,9 @@ public class Huffman {
 			list.add(new Node(i, freq.get(i)));
 		}
 		Collections.sort(list);
-		for(int i = 0; list.size() > 1; i++){
-			Node left = list.remove(0);
-			Node right = list.remove(0);
-			Node parent = new Node(left, right);
+		while(list.size() > 1){
+			Node parent = new Node(list.remove(0), list.remove(0));
 			list.add(parent);
-			
 		}
 		return list.get(0);
 	}
@@ -73,7 +70,13 @@ public class Huffman {
 	 * @return
 	 */
 	public static EncodedString encode(Map<Character, EncodedString> encodingMap, String s) {
-		return null;
+		EncodedString str = new EncodedString();
+        for(int i = 0; i < s.length(); i++){
+            if(encodingMap.containsKey(s.charAt(i))){
+                str.concat(encodingMap.get(s.charAt(i)));
+            }
+        }
+        return str;
 	}
 	
 	/**
