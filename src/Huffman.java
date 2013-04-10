@@ -38,6 +38,13 @@ public class Huffman {
 			list.add(new Node(i, freq.get(i)));
 		}
 		Collections.sort(list);
+		for(int i = 0; list.size() > 1; i++){
+			Node left = list.remove(0);
+			Node right = list.remove(0);
+			Node parent = new Node(left, right);
+			list.add(parent);
+			
+		}
 		return list.get(0);
 	}
 	
