@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -106,7 +107,19 @@ public class Huffman {
 	 */
 	public static String decode(Node tree, EncodedString es) {
 		StringBuilder string = new StringBuilder(es.length());
-		
-		return null;
+		Node temp = tree;
+		Iterator<Byte> it = es.iterator();
+		for(int i = 0; i < es.length(); i++){
+			if(it.next() == 0){
+				temp = temp.left;
+			}
+			else
+				temp = temp.right;
+			if(temp.left == null && temp.right == null){
+				string.append(temp.character);
+				temp = tree;
+			}
+		}
+		return string.toString();
 	}
 }
