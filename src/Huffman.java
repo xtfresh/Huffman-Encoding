@@ -54,7 +54,23 @@ public class Huffman {
  	 * @return
  	 */
  	public static Map<Character, EncodedString> buildEncodingMap(Node tree) {
- 		return null;
+ 		Map<Character, EncodedString> map = new HashMap<Character, EncodedString>();
+ 		Node temp = tree;
+ 		
+ 		while(temp.right != null && temp.left != null){
+ 			EncodedString es = new EncodedString();
+ 			if(temp.left != null){
+ 				es.zero();
+ 				map.put(temp.character, es);
+ 				temp = temp.left;
+ 			}
+ 			if(temp.right != null){
+ 				es.one();
+				map.put(temp.character, es);
+ 				temp = temp.right;
+ 			}
+ 		}
+ 		return map;
  	}
 	
 	/**
