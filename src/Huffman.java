@@ -55,22 +55,20 @@ public class Huffman {
  	 */
  	public static Map<Character, EncodedString> buildEncodingMap(Node tree) {
  		Map<Character, EncodedString> map = new HashMap<Character, EncodedString>();
- 		Node temp = tree;
- 		
- 		while(temp.right != null && temp.left != null){
- 			EncodedString es = new EncodedString();
- 			if(temp.left != null){
- 				es.zero();
- 				map.put(temp.character, es);
- 				temp = temp.left;
- 			}
- 			if(temp.right != null){
- 				es.one();
-				map.put(temp.character, es);
- 				temp = temp.right;
- 			}
- 		}
+ 		EncodedString es = new EncodedString();
+ 		traverseTree(tree, es, map);
  		return map;
+ 	}
+ 	public static void traverseTree(Node tree, EncodedString es, Map<Character, EncodedString> map){
+ 		if(tree.left != null && tree.right != null){
+ 			es.zero();
+ 			traverseTree(tree.left, es, map);
+ 			es.one();
+ 			traverseTree(tree.right, es, map);
+ 		}
+ 		else{
+ 			map.put(tree.character, es);
+ 		}
  	}
 	
 	/**
@@ -107,6 +105,8 @@ public class Huffman {
 	 * @return
 	 */
 	public static String decode(Node tree, EncodedString es) {
+		StringBuilder string = new StringBuilder(es.length());
+		
 		return null;
 	}
 }
