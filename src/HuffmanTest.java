@@ -9,7 +9,7 @@ import org.junit.Test;
 public class HuffmanTest {
 
 	private final String EASY = "ab", ONE_LETTER = "a", DOUBLE = "aabb",
-			SENTENCE = "The quick brown fox trips over the lazy dog.",
+			SENTENCE = "The quick brown fox jumped over the lazy dog.",
 			CAPITALS = "aAaAaAaAaA",
 			SENTENCE2 = "This is a test sentence for Huffman's algorithm.";
 	
