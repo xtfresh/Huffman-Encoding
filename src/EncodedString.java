@@ -8,7 +8,7 @@ public class EncodedString implements Iterable<Byte> {
 	public static final byte ZERO = (byte) 0;
 	public static final byte ONE = (byte) 1;
 	
-	private List<Byte> list;
+	List<Byte> list;
 	
 	public EncodedString() {
 		list = new ArrayList<>();

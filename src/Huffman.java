@@ -3,6 +3,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Set;
 
 public class Huffman {
@@ -21,6 +22,9 @@ public class Huffman {
 			Integer frequency = map.get(s.charAt(i));
             map.put(s.charAt(i), (frequency == null) ? 1 : frequency + 1);
 		}
+		System.out.println(s);
+		System.out.println(map.toString());
+		System.out.println("^^^^^ Freq Map ^^^^^^");
 		return map;
 	}
 	
@@ -33,17 +37,19 @@ public class Huffman {
 	 * @return
 	 */
 	public static Node buildHuffmanTree(Map<Character, Integer> freq) {
-		ArrayList<Node> list = new ArrayList<Node>();
+		PriorityQueue<Node> pq = new PriorityQueue<Node>();
 		Set<Character> set = freq.keySet();
 		for (Character i: set){
-			list.add(new Node(i, freq.get(i)));
+			pq.add(new Node(i, freq.get(i)));
 		}
-		Collections.sort(list);
-		while(list.size() > 1){
-			Node parent = new Node(list.remove(0), list.remove(0));
-			list.add(parent);
+		
+		System.out.println(pq.toString());
+		while(pq.size() > 1){
+			Node parent = new Node(pq.remove(), pq.remove());
+			pq.add(parent);
 		}
-		return list.get(0);
+		System.out.println("^^^^^ Huff tree ^^^^^^");
+		return pq.peek();
 	}
 	
  	/**
@@ -57,18 +63,28 @@ public class Huffman {
  	public static Map<Character, EncodedString> buildEncodingMap(Node tree) {
  		Map<Character, EncodedString> map = new HashMap<Character, EncodedString>();
  		EncodedString es = new EncodedString();
- 		traverseTree(tree, es, map);
+ 		if(tree.left == null && tree.right == null){
+ 			es.zero();
+ 			map.put(tree.character, es);
+ 		}else
+ 			traverseTree(tree, es, map);
+ 		System.out.println(map.get('a').list.toString());
+ 		//System.out.println(map.get('b').list.toString());
+ 		System.out.println("^^^^^ enc map ^^^^^^");
  		return map;
  	}
- 	public static void traverseTree(Node tree, EncodedString es, Map<Character, EncodedString> map){
+ 	private static void traverseTree(Node tree, EncodedString es, Map<Character, EncodedString> map){
  		if(tree.left != null && tree.right != null){
  			es.zero();
  			traverseTree(tree.left, es, map);
  			es.one();
  			traverseTree(tree.right, es, map);
+ 			
  		}
  		else{
  			map.put(tree.character, es);
+ 			//es.remove();
+
  		}
  	}
 	
@@ -85,12 +101,17 @@ public class Huffman {
 	 * @return
 	 */
 	public static EncodedString encode(Map<Character, EncodedString> encodingMap, String s) {
+		System.out.println(encodingMap.get(s.charAt(0)).list.toString());
 		EncodedString str = new EncodedString();
+		System.out.println(s);
         for(int i = 0; i < s.length(); i++){
             if(encodingMap.containsKey(s.charAt(i))){
                 str.concat(encodingMap.get(s.charAt(i)));
+                System.out.println(encodingMap.get(s.charAt(i)).list.toString());
             }
         }
+       // System.out.println(str.list.toString());
+        System.out.println("^^^^^ encode ^^^^^^");
         return str;
 	}
 	
@@ -110,16 +131,17 @@ public class Huffman {
 		Node temp = tree;
 		Iterator<Byte> it = es.iterator();
 		for(int i = 0; i < es.length(); i++){
-			if(it.next() == 0){
-				temp = temp.left;
-			}
-			else
-				temp = temp.right;
 			if(temp.left == null && temp.right == null){
 				string.append(temp.character);
 				temp = tree;
-			}
+			}else 
+				if(it.next() == 0){
+					temp = temp.left;
+				}else
+					temp = temp.right;
+			
 		}
+		System.out.println(string.toString());
 		return string.toString();
 	}
 }
